@@ -1,38 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lara - My Love</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <meta name="description" content="A romantic website dedicated to Lara, created with love and beauty.">
-    <meta name="author" content="You">
+    <title>Lara, My Infinite Love</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --love-pink: #FF69B4;
+            --love-deep-pink: #FF1493;
+            --love-background: #0C0C1E;
+            --love-text: #F0F0F0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Cormorant Garamond', serif;
+            background: var(--love-background);
+            cursor: heart;
+            overflow-x: hidden;
+        }
+
+        .love-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .love-constellation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+
+        .heart-reveal {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            z-index: 10;
+            transform-style: preserve-3d;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .love-title {
+            font-size: 2.5rem;
+            color: var(--love-pink);
+            margin-bottom: 1.5rem;
+            font-family: 'Satisfy', cursive;
+            text-shadow: 0 0 20px rgba(255,105,180,0.5);
+        }
+
+        .love-message {
+            color: var(--love-text);
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .love-button {
+            background: linear-gradient(45deg, var(--love-pink), var(--love-deep-pink));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin: 0.5rem;
+        }
+
+        .love-button:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 0 15px rgba(255,105,180,0.5);
+        }
+
+        .hidden-message {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .hidden-message.revealed {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        @media screen and (max-width: 600px) {
+            .love-container {
+                padding: 0.5rem;
+            }
+
+            .heart-reveal {
+                padding: 1rem;
+            }
+
+            .love-title {
+                font-size: 2rem;
+            }
+
+            .love-message {
+                font-size: 1rem;
+            }
+
+            .love-button {
+                font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
-    <div class="container">
-        <header class="header">
-            <h1 class="main-title">Lara, My Love</h1>
-            <p class="sub-heading">You and me, in Lisbon, under the stars.</p>
-        </header>
+    <div class="love-container">
+        <div class="love-constellation" id="constellation"></div>
+        
+        <div class="heart-reveal" id="heartReveal">
+            <h1 class="love-title">Lara, My Love</h1>
+            
+            <p class="love-message">
+                To my dearest Lara, there's something I need you to know : every day, as I think of you, I feel more certain of one thing… I love you. You are always in my heart, You are the only one I will ever need to live. Take my Love, you definitly deserve it.
+            </p>
 
-        <section class="content">
-            <div class="message-box">
-                <h2 class="message-title">For the prettiest girl</h2>
-                <p class="message-text">To my dearest Lara, there’s something I need you to know : every day, as I think of you, I feel more certain of one thing… I love you. You are always in my heart, and no matter what, that will never change.</p>
+            <div id="messageContainer">
+                <button class="love-button" onclick="revealNextMessage()">Show more..</button>
             </div>
-        </section>
-
-        <footer class="footer">
-            <p class="footer-text">Created with ❤️ by Me =)</p>
-        </footer>
+        </div>
     </div>
 
     <script>
-        document.querySelector('.container').style.transition = 'all 0.5s ease-in-out';
+        const messages = [
+            "You are the dream I didn't dare imagine, the medication my heart silenty needs",
+            "Every moment with you is a poem, every time, a perfect love story",
+            "In the universe of my feelings, you are the brightest star, the one guiding my soul",
+            "My love for you is more than a feeling, it's a perfect story",
+            "Lara, you are my home, my refuge. With you, I am complete"
+        ];
+
+        let currentMessageIndex = 0;
+
+        function createConstellation() {
+            const constellation = document.getElementById('constellation');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                constellation.appendChild(star);
+            }
+        }
+
+        function revealNextMessage() {
+            if (currentMessageIndex < messages.length) {
+                const messageContainer = document.getElementById('messageContainer');
+                const newMessageDiv = document.createElement('div');
+                newMessageDiv.classList.add('love-message', 'hidden-message');
+                newMessageDiv.textContent = messages[currentMessageIndex];
+                
+                messageContainer.appendChild(newMessageDiv);
+                
+                setTimeout(() => {
+                    newMessageDiv.classList.add('revealed');
+                }, 50);
+
+                currentMessageIndex++;
+
+                if (currentMessageIndex === messages.length) {
+                    const button = document.querySelector('.love-button');
+                    button.textContent = 'Love is Infinite for you';
+                    button.disabled = true;
+                }
+            }
+        }
+
+        createConstellation();
     </script>
 </body>
-
 </html>
